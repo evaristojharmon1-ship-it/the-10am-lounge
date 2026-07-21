@@ -300,6 +300,35 @@
     text-align: center;
     color: white;
 }
+
+        /* Ayusin ang pangkalahatang container para magkasya sa maliit na screen ng phone */
+@media (max-width: 768px) {
+    body, html {
+        overflow-x: hidden;
+    }
+
+    form, .form-container, .card, div {
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    /* Ginagawang patayo o maayos ang agwat ng mga tanong at pagpipilian */
+    .question-container, .form-group {
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    /* Inaayos ang mga radio buttons/rating options para hindi mag-overflow sa gilid */
+    .rating-options, .radio-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 5px;
+        width: 100%;
+    }
+}
+}
     </style>
 </head>
 <body>
