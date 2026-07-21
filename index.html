@@ -576,22 +576,23 @@
         const data = Object.fromEntries(formData.entries());
 
         try {
-            // Baguhin ang line 535 sa index.html:
-const response = await fetch('https://script.google.com/macros/s/AKfycbyNZRkVrT8g_J2-jpe552p8qIuJr1Yz0QdZCBZGpmr5pR91bvOWlO6tqWMhMHlT1HEu6g/exec', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
+    const response = await fetch('https://script.google.com/macros/s/AKfycbvNZRkVrT8g_J2-jpe552p8qluJr1Yz0QdZCBZgpmr5pR91bvOWl06tqWMhMHIT1HEu6g/exec', {
+        method: 'POST',
+        mode: 'no-cors', // Ito ang mag-aalis ng harang ng browser
+        headers: { 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(data)
+    });
 
-            if (response.ok) {
-                showThankYou(); // Lipat sa Thank You page
-            } else {
-                throw new Error('Submission failed');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Server connection error. Please try again.');
-        }
+    // Pagka-submit, didiretso na agad sa Thank You page nang mabilis
+    document.getElementById('feedbackForm').style.display = 'none';
+    document.getElementById('thankYouPage').style.display = 'flex';
+
+} catch (error) {
+    console.error('Error:', error);
+    alert('May nangyaring error sa pagsusumite.');
+}
     });
 </script>
 </body>
