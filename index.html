@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 10 AM Lounge - Feedback</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+           background: linear-gradient(135deg, #1f1813 0%, #2b221a 100%); 
+        }   
+
+        /* --- FRONT / WELCOME PAGE (MODERN ASYMMETRIC DESIGN) --- */
+        .welcome-screen {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 40px;
+            gap: 50px;
+        }
+
+        .poster-panel {
+            flex: 1;
+            max-width: 450px;
+            height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .poster-panel img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(223, 195, 164, 0.2);
+        }
+
+        .action-panel {
+            flex: 1;
+            max-width: 450px;
+            background: rgba(253, 251, 247, 0.06); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(223, 195, 164, 0.15);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .brand-logo-text {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #dfc3a4; 
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            color: #fdfbf7;
+            margin: 0 0 15px 0;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .welcome-tagline {
+            font-size: 16px;
+            color: #bfa895;
+            margin-bottom: 40px;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .start-btn {
+            background-color: #8c6239;
+            color: white;
+            padding: 18px 0;
+            border: 1px solid #dfc3a4;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 6px 20px rgba(140, 98, 57, 0.3);
+            width: 100%;
+        }
+        
+        .start-btn:hover {
+            background-color: #dfc3a4;
+            color: #2b221a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(223, 195, 164, 0.4);
+        }
+
+        @media (max-width: 850px) {
+            .welcome-screen {
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+                height: auto;
+                min-height: 100vh;
+            }
+            .poster-panel {
+                height: auto;
+                max-width: 320px;
+                margin-top: 20px;
+            }
+            .action-panel {
+                padding: 30px 25px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .welcome-title {
+                font-size: 26px;
+            }
+        }
+
+       .form-overlay-wrapper {
+    display: none; 
+    width: 100%;
+    min-height: 100vh;
+    /* Dito natin ilalagay ang dark overlay + image */
+    background: linear-gradient(rgba(0, 0, 0, 0.753), rgba(0, 0, 0, 0.6)), url('poster.jfif') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    box-sizing: border-box;
+    padding: 40px 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+        .form-container {
+        background: rgba(255, 255, 255, 0.233); /* Gawing medyo transparent */
+        backdrop-filter: blur(13px);           /* Frosted glass effect */
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        width: 90%;
+        max-width: 600px; /* Para hindi masyadong malapad */
+        padding: 40px;
+        border-radius: 20px;
+        color: white; /* Gawing puti ang text para mabasa sa brown background */
+    }
+        h1 {
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #cfc9c6;
+            font-weight: 700;
+            text-align: center;
+        }
+        .event-subtitle {
+            text-align: center;
+            color: #e4ddd7;
+            font-weight: 600;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        hr {
+            border: 0;
+            border-top: 1px solid #e7dfd5;
+            margin-bottom: 35px;
+        }
+        .form-group {
+            margin-bottom: 35px;
+        }
+        .question-label {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: block;
+            color: #c4bcb6;
+        }
+        .required-star {
+            color: #b94a24;
+            margin-left: 4px;
+        }
+        .optional-text {
+            font-size: 13px;
+            color: #8c7665;
+            font-weight: normal;
+            margin-left: 5px;
+        }
+        .scale-container {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+        .scale-options {
+    display: flex;
+    gap: 100px;
+    margin: 10px 0 20px 0;
+}
+
+.scale-item {
+    display: flex;
+    align-items: center;
+}
+
+/* Itago ang default radio button */
+.scale-item input[type="radio"] {
+    display: none;
+}
+
+/* Disenyo ng bilog */
+.scale-item label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        border: 2px solid #c0bab6; /* Ginawang mas makapal (2px) at mas madilim */
+        border-radius: 50%;
+        cursor: pointer;
+        transition: 0.3s;
+        color: #e7ded6; /* Mas madilim para kita ang numero */
+        font-weight: 600; /* Ginawang bold para mas lumitaw */
+    }
+
+/* Epekto kapag pinili (Active) */
+.scale-item input[type="radio"]:checked + label {
+        background-color: #4a3a2e; /* Baguhin para mag-match sa bagong border color */
+        color: white;
+    }
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #8c7665;
+            font-weight: 500;
+            padding: 0 5px;
+        }
+        
+        .comments-box {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            border: 1px solid #dfc3a4;
+            border-radius: 6px;
+            background-color: #ffffff;
+            font-family: inherit;
+            font-size: 15px;
+            color: #3d2f26;
+            resize: vertical;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .comments-box:focus {
+            border-color: #8c6239;
+            box-shadow: 0 0 5px rgba(140, 98, 57, 0.2);
+        }
+
+        .submit-btn {
+    width: 100%;             /* Para maging malapad */
+    padding: 15px;           /* Para maging makapal */
+    background-color: #7b5e4a; /* Yung kulay brown mo */
+    color: white;            /* Kulay ng text */
+    border: none;            /* Alisin ang border */
+    border-radius: 8px;      /* Yung kurbada sa gilid */
+    font-size: 16px;         /* Laki ng text */
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.submit-btn:hover {
+    background-color: #634b3a; /* Medyo dark pag in-hover */
+}
+
+#thankYouPage {
+    display: none; 
+    width: 100%;
+    min-height: 100vh;
+    /* Dito natin idadagdag ang image */
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('poster.jfif') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+    </style>
+</head>
+<body>
+
+    <!-- 1. FULL SCREEN FRONT PAGE -->
+    <div class="welcome-screen" id="welcomePage">
+        <div class="poster-panel">
+            <img src="poster.jfif" alt="The 10 AM Lounge Poster">
+        </div>
+        <div class="action-panel">
+            <div class="brand-logo-text">Hain Manila</div>
+            <h2 class="welcome-title">Welcome to the 10 AM Lounge</h2>
+            <p class="welcome-tagline">We would love to hear from you!</p>
+            <button class="start-btn" onclick="showForm()">SHARE FEEDBACK</button>
+        </div>
+    </div>
+
+   <!-- 2. ACTUAL FEEDBACK FORM SCREEN -->
+    <div class="form-overlay-wrapper" id="formPage">
+        <div class="form-container" style="margin-top: 80px !important; margin-bottom: 80px !important;">
+            <h1>Event Feedback</h1>
+            <div class="event-subtitle">The 10 AM Lounge – An Acoustic Midmorning Social</div>
+            <hr>
+            <div class="form-group" style="margin-bottom: 20px;">
+    <label for="fullname" style="display: block; margin-bottom: 5px; font-weight: bold;">Full Name:</label>
+    <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box;">
+</div>
+<div class="form-group" style="margin-bottom: 20px;">
+    <label for="email" style="display: block; margin-bottom: 5px; font-weight: bold;">Email Address:</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email address" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box;">
+</div>
+            <form id="feedbackForm">
+            <h3>Feedback Survey</h3>
+                  <p><em>5 - Strongly Agree, 1 - Strongly Disagree</em></p>
+
+    <!-- VENUE -->
+<h4>Venue</h4>
+<div class="form-group"><label>The venue was clean and well maintained</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="v1-5" name="v1" value="5" required><label for="v1-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="v1-4" name="v1" value="4"><label for="v1-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="v1-3" name="v1" value="3"><label for="v1-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="v1-2" name="v1" value="2"><label for="v1-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="v1-1" name="v1" value="1"><label for="v1-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>The event layout allowed guests to move and socialize comfortably</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="v2-5" name="v2" value="5" required><label for="v2-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="v2-4" name="v2" value="4"><label for="v2-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="v2-3" name="v2" value="3"><label for="v2-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="v2-2" name="v2" value="2"><label for="v2-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="v2-1" name="v2" value="1"><label for="v2-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>The dining area was spacious and well-organized</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="v3-5" name="v3" value="5" required><label for="v3-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="v3-4" name="v3" value="4"><label for="v3-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="v3-3" name="v3" value="3"><label for="v3-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="v3-2" name="v3" value="2"><label for="v3-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="v3-1" name="v3" value="1"><label for="v3-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>The overall aesthetic of the venue was visually appealling</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="v4-5" name="v4" value="5" required><label for="v4-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="v4-4" name="v4" value="4"><label for="v4-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="v4-3" name="v4" value="3"><label for="v4-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="v4-2" name="v4" value="2"><label for="v4-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="v4-1" name="v4" value="1"><label for="v4-1">1</label></div>
+</div></div>
+
+<!-- SERVICE -->
+<h4>Service</h4>
+<div class="form-group"><label>The staff are warm and welcoming</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="s1-5" name="s1" value="5" required><label for="s1-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="s1-4" name="s1" value="4"><label for="s1-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="s1-3" name="s1" value="3"><label for="s1-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="s1-2" name="s1" value="2"><label for="s1-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="s1-1" name="s1" value="1"><label for="s1-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>The staff were courteous and respectful throughout the event</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="s2-5" name="s2" value="5" required><label for="s2-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="s2-4" name="s2" value="4"><label for="s2-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="s2-3" name="s2" value="3"><label for="s2-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="s2-2" name="s2" value="2"><label for="s2-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="s2-1" name="s2" value="1"><label for="s2-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>My food and drinks were served within a reasonable amount of time</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="s3-5" name="s3" value="5" required><label for="s3-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="s3-4" name="s3" value="4"><label for="s3-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="s3-3" name="s3" value="3"><label for="s3-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="s3-2" name="s3" value="2"><label for="s3-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="s3-1" name="s3" value="1"><label for="s3-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>The staff were attentive to my needs during the event</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="s4-5" name="s4" value="5" required><label for="s4-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="s4-4" name="s4" value="4"><label for="s4-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="s4-3" name="s4" value="3"><label for="s4-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="s4-2" name="s4" value="2"><label for="s4-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="s4-1" name="s4" value="1"><label for="s4-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>The staff handled my requests and/or concerns professionally</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="s5-5" name="s5" value="5" required><label for="s5-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="s5-4" name="s5" value="4"><label for="s5-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="s5-3" name="s5" value="3"><label for="s5-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="s5-2" name="s5" value="2"><label for="s5-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="s5-1" name="s5" value="1"><label for="s5-1">1</label></div>
+</div></div>
+
+<!-- FOOD -->
+<h4>Food</h4>
+<div class="form-group"><label>My food was served fresh and at the appropriate temperature</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="f1-5" name="f1" value="5" required><label for="f1-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="f1-4" name="f1" value="4"><label for="f1-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="f1-3" name="f1" value="3"><label for="f1-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="f1-2" name="f1" value="2"><label for="f1-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="f1-1" name="f1" value="1"><label for="f1-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>The taste and flavor of the food met my expectations</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="f2-5" name="f2" value="5" required><label for="f2-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="f2-4" name="f2" value="4"><label for="f2-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="f2-3" name="f2" value="3"><label for="f2-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="f2-2" name="f2" value="2"><label for="f2-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="f2-1" name="f2" value="1"><label for="f2-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>The food was presented attractively and was appetizing</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="f3-5" name="f3" value="5" required><label for="f3-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="f3-4" name="f3" value="4"><label for="f3-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="f3-3" name="f3" value="3"><label for="f3-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="f3-2" name="f3" value="2"><label for="f3-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="f3-1" name="f3" value="1"><label for="f3-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>The menu offered a good variety of food and beverage options </label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="f4-5" name="f4" value="5" required><label for="f4-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="f4-4" name="f4" value="4"><label for="f4-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="f4-3" name="f4" value="3"><label for="f4-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="f4-2" name="f4" value="2"><label for="f4-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="f4-1" name="f4" value="1"><label for="f4-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>The quality of the food was worth its price </label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="f5-5" name="f5" value="5" required><label for="f5-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="f5-4" name="f5" value="4"><label for="f5-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="f5-3" name="f5" value="3"><label for="f5-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="f5-2" name="f5" value="2"><label for="f5-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="f5-1" name="f5" value="1"><label for="f5-1">1</label></div>
+</div></div>
+
+<!-- OVERALL -->
+<h4>Overall Dining Experience</h4>
+<div class="form-group"><label>I am satisfied with my overall dining experience at The 10AM Lounge</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="o1-5" name="o1" value="5" required><label for="o1-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="o1-4" name="o1" value="4"><label for="o1-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="o1-3" name="o1" value="3"><label for="o1-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="o1-2" name="o1" value="2"><label for="o1-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="o1-1" name="o1" value="1"><label for="o1-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>The Hain Manila team exceeded my expectations</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="o2-5" name="o2" value="5" required><label for="o2-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="o2-4" name="o2" value="4"><label for="o2-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="o2-3" name="o2" value="3"><label for="o2-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="o2-2" name="o2" value="2"><label for="o2-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="o2-1" name="o2" value="1"><label for="o2-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>I received good value for the money I spent</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="o3-5" name="o3" value="5" required><label for="o3-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="o3-4" name="o3" value="4"><label for="o3-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="o3-3" name="o3" value="3"><label for="o3-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="o3-2" name="o3" value="2"><label for="o3-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="o3-1" name="o3" value="1"><label for="o3-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>My overall experience was pleasant from arrival to departure </label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="o4-5" name="o4" value="5" required><label for="o4-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="o4-4" name="o4" value="4"><label for="o4-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="o4-3" name="o4" value="3"><label for="o4-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="o4-2" name="o4" value="2"><label for="o4-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="o4-1" name="o4" value="1"><label for="o4-1">1</label></div>
+</div></div>
+
+<div class="form-group"><label>I would recommend The 10AM Lounge to my friends, family, and/or colleagues</label><div class="scale-options">
+    <div class="scale-item"><input type="radio" id="o5-5" name="o5" value="5" required><label for="o5-5">5</label></div>
+    <div class="scale-item"><input type="radio" id="o5-4" name="o5" value="4"><label for="o5-4">4</label></div>
+    <div class="scale-item"><input type="radio" id="o5-3" name="o5" value="3"><label for="o5-3">3</label></div>
+    <div class="scale-item"><input type="radio" id="o5-2" name="o5" value="2"><label for="o5-2">2</label></div>
+    <div class="scale-item"><input type="radio" id="o5-1" name="o5" value="1"><label for="o5-1">1</label></div>
+</div></div>
+
+
+    <div class="form-group">
+        <label>What did you enjoy most?</label><br>
+        <textarea name="enjoy" rows="3" style="width:100%"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Comments/Suggestions</label><br>
+        <textarea name="comments" rows="3" style="width:100%"></textarea>
+    </div>
+
+<button type="submit" class="submit-btn">Submit Feedback</button>
+</form>
+        </div>
+    </div>
+
+    <!-- Thank You Page -->
+<div id="thankYouPage" class="form-overlay-wrapper" style="display: none;">
+    <div class="form-container" style="text-align: center; color: white;">
+        <h1>Thank You!</h1>
+        <p>We appreciate your feedback and hope to see you again at The 10 AM Lounge.</p>
+        <button onclick="location.reload()" style="padding: 10px 20px; border-radius: 10px; border: none; background: #4a3a2e; color: white; cursor: pointer; margin-top: 20px;">Back to Home</button>
+    </div>
+</div>
+
+    <!-- --- JAVASCRIPT SECTION (NANDITO YUNG FUNCTION) --- -->
+    <script>
+    function showForm() {
+        document.getElementById('welcomePage').style.display = 'none';
+        document.getElementById('formPage').style.display = 'flex';
+    }
+
+    function showThankYou() {
+        document.getElementById('formPage').style.display = 'none';
+        document.getElementById('thankYouPage').style.display = 'flex';
+    }
+
+    document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Kinukuha natin ang lahat ng radio inputs at textareas
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            // Baguhin ang line 535 sa index.html:
+const response = await fetch('http://localhost:5000/submit-feedback', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                showThankYou(); // Lipat sa Thank You page
+            } else {
+                throw new Error('Submission failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Server connection error. Please try again.');
+        }
+    });
+</script>
+</body>
+</html>
