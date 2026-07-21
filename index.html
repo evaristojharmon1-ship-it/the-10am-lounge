@@ -320,20 +320,28 @@
     }
 
    @media (max-width: 768px) {
-    /* Baguhin ang rating options para hindi sila mag-wrap at magkasya sa isang screen */
+    /* Siguraduhing magkakasya ang rating options sa loob nang hindi na-stretched */
     .rating-options, .radio-group {
-        display: flex;
-        flex-wrap: nowrap !important; /* Pinipigilan silang mapunta sa ibabang linya */
-        justify-content: space-between !important;
-        width: 100%;
-        gap: 2px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 8px !important; /* Dito natin ididikit o aayusin ang agwat ng mga bilog */
+        width: 100% !important;
+        box-sizing: border-box;
     }
 
-    /* Paliitin nang kaunti ang bawat item para magkasya ang 5 hanggang 1 */
+    /* Piliting gawing pantay (hindi patayong oblong) ang mga bilog o item */
     .rating-options label, .scale-item, .radio-group div {
-        font-size: 14px;
-        padding: 2px;
-        min-width: 0;
+        min-width: 28px !important;
+        height: 28px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        flex: 0 0 auto !important;
     }
 }
 }
