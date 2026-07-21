@@ -319,13 +319,21 @@
         box-sizing: border-box;
     }
 
-    /* Inaayos ang mga radio buttons/rating options para hindi mag-overflow sa gilid */
+   @media (max-width: 768px) {
+    /* Baguhin ang rating options para hindi sila mag-wrap at magkasya sa isang screen */
     .rating-options, .radio-group {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 5px;
+        flex-wrap: nowrap !important; /* Pinipigilan silang mapunta sa ibabang linya */
+        justify-content: space-between !important;
         width: 100%;
+        gap: 2px !important;
+    }
+
+    /* Paliitin nang kaunti ang bawat item para magkasya ang 5 hanggang 1 */
+    .rating-options label, .scale-item, .radio-group div {
+        font-size: 14px;
+        padding: 2px;
+        min-width: 0;
     }
 }
 }
