@@ -19,55 +19,58 @@ const transporter = nodemailer.createTransport({
 app.post('/submit-feedback', (req, res) => {
     const data = req.body;
 
-    // Mapping ng mga short codes patungo sa aktwal na mga tanong
-    const questionLabels = {
-        fullname: "Full Name",
-        email: "Email Address", // <--- Idinagdag natin ito rito
-        
-        // Venue (V1 - V4)
-        v1: "Venue: The venue was clean and well maintained",
-        v2: "Venue: The event layout allowed guests to move and socialize comfortably",
-        v3: "Venue: The dining area was spacious and well-organized",
-        v4: "Venue: The overall aesthetic of the venue was visually appealing",
+    // Ayusin natin ang pag-grupo at pag-format ng email ayon sa gusto ng client
+    let emailContent = `NEW FEEDBACK RECEIVED:\n\n`;
+    emailContent += `Full Name: ${data.fullName || 'N/A'}\n`;
+    emailContent += `Email Address: ${data.email || 'N/A'}\n\n`;
+    emailContent += `----------------------------------------\n\n`;
 
-        // Service (S1 - S5)
-        s1: "Service: The staff are warm and welcoming",
-        s2: "Service: The staff were courteous and respectful throughout the event",
-        s3: "Service: My food and drinks were served within a reasonable amount of time",
-        s4: "Service: The staff were attentive to my needs during the event",
-        s5: "Service: The staff handled my requests and/or concerns professionally",
-
-        // Food (F1 - F5)
-        f1: "Food: My food was served fresh and at the appropriate temperature",
-        f2: "Food: The taste and flavor of the food met my expectations",
-        f3: "Food: The food was presented attractively and was appetizing",
-        f4: "Food: The menu offered a good variety of food and beverage options",
-        f5: "Food: The quality of the food was worth its price",
-
-        // Overall dining experience (O1 - O5)
-        o1: "Overall: I am satisfied with my overall dining experience at The 10AM Lounge",
-        o2: "Overall: The Hain Manila team exceeded my expectations",
-        o3: "Overall: I received good value for the money I spent",
-        o4: "Overall: My overall experience was pleasant from arrival to departure",
-        o5: "Overall: I would recommend The 10AM Lounge to my friends, family, and/or colleagues",
-
-        // Text inputs
-        enjoy: "What did you enjoy the most?",
-        comments: "Comments / Suggestions"
+    // I-define ang mga kategorya at ang kanilang mga tanong/keys sa form
+    // Palitan mo ang mga pangalan ng key sa ibaba kung ano ang ginamit mo sa HTML name attributes mo
+    const categories = {
+        "Venue": [
+            { key: "venue1", label: "1. The venue was clean and well maintained." },
+            { key: "venue2", label: "2. The event layout allowed guests to move and socialize comfortably." },
+            { key: "venue3", label: "3. The dining area was spacious and well-organized." },
+            { key: "venue4", label: "4. The overall aesthetic of the venue was visually appealing." }
+        ],
+        "Service": [
+            { key: "service1", label: "1. The staff are warm and welcoming." },
+            { key: "service2", label: "2. The staff were courteous and respectful throughout the event." },
+            { key: "service3", label: "3. My food and drinks were served within a reasonable amount of time." },
+            { key: "service4", label: "4. The staff were attentive to my needs during the event." },
+            { key: "service5", label: "5. The staff handled my requests and/or concerns professionally." }
+        ],
+        "Food": [
+            { key: "food1", label: "1. My food was served fresh and at the appropriate temperature." },
+            { key: "food2", label: "2. The taste and flavor of the food met my expectations." },
+            { key: "food3", label: "3. The food was presented attractively and was appetizing." },
+            { key: "food4", label: "4. The menu offered a good variety of food and beverage options." },
+            { key: "food5", label: "5. The quality of the food was worth its price." }
+        ],
+        "Overall Experience": [
+            { key: "overall1", label: "1. I am satisfied with my overall dining experience at The 10AM Lounge." },
+            { key: "overall2", label: "2. The Hain Manila team exceeded my expectations." },
+            { key: "overall3", label: "3. I received good value for the money I spent." },
+            { key: "overall4", label: "4. My overall experience was pleasant from start to finish." }
+        ]
     };
 
-    let emailContent = "NEW FEEDBACK RECEIVED:\n\n";
-    
-    for (let key in data) {
-        let label = questionLabels[key] || key.toUpperCase();
-        emailContent += `${label}: ${data[key]}\n`;
+    // Loop para mabuo ang malinis na pormat bawat category
+    for (const [categoryName, questions] of Object.entries(categories)) {
+        emailContent += `*${categoryName}*\n`;
+        questions.forEach((q) => {
+            const ratingValue = data[q.key] || 'No rating';
+            emailContent += `${q.label}\nRating: ${ratingValue}\n\n`;
+        });
+        emailContent += `----------------------------------------\n\n`;
     }
 
     const mailOptions = {
         from: process.env.EMAIL_USER || 'evaristojharmon1@gmail.com',
         to: 'betinamarielle.mendoza@benilde.edu.ph',
         subject: 'New Feedback: The 10 AM Lounge',
-        replyTo: data.email, // <--- Kapag ni-click ni Betina ang Reply, direkta sa sumagot mapupunta
+        replyTo: data.email,
         text: emailContent
     };
 
