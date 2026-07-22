@@ -581,28 +581,32 @@
     document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Kinukuha natin ang lahat ng radio inputs at textareas
+        // Kinukuha natin ang lahat ng radio inputs, textareas, at iba pang fields
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
 
         try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbxWucXdTL7AY71gobwHbSfm9JH0dPDHBFjSHptnwoNgwMMA0x0mlHtwMZc8_hsklcvJVQ/exec', {
-        method: 'POST',
-        mode: 'no-cors', // Ito ang mag-aalis ng harang ng browser
-        headers: { 
-            'Content-Type': 'application/json' 
-        },
-        body: JSON.stringify(data)
-    });
+            // Tiyakin na ang URL na ito ay nakaturo sa iyong Node.js server.js (halimbawa kung naka-deploy o local)
+            const response = await fetch('https://script.google.com/macros/s/AKfycbxWucXdTL7AY71gobwHbSfm9JH0dPDHBFjSHptnwoNgwMMA0x0mlHtwMZc8_hsklcvJVQ/exec', {
+                method: 'POST',
+                headers: {  
+                    'Content-Type': 'application/json'  
+                },
+                body: JSON.stringify(data)
+            });
 
-    // Pagka-submit, didiretso na agad sa Thank You page nang mabilis
-    document.getElementById('feedbackForm').style.display = 'none';
-    document.getElementById('thankYouPage').style.display = 'flex';
+            if (response.ok) {
+                // Pagka-submit, itatago ang form at ipapakita ang Thank You page
+                document.getElementById('formPage').style.display = 'none';
+                document.getElementById('thankYouPage').style.display = 'flex';
+            } else {
+                alert('May nangyaring error sa pagsusumite.');
+            }
 
-} catch (error) {
-    console.error('Error:', error);
-    alert('May nangyaring error sa pagsusumite.');
-}
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Hindi makausap ang server.');
+        }
     });
 </script>
 </body>
