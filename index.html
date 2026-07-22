@@ -579,25 +579,25 @@
     }
 
     document.getElementById('feedbackForm').addEventListener('submit', (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
 
-    // I-send sa Google Apps Script nang nasa background
-    fetch('ILAGAY_DITO_ANG_WEB_APP_URL_MO', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }).catch(err => console.log('Background send error:', err));
+        // I-send sa Google Apps Script gamit ang iyong bagong URL
+        fetch('https://script.google.com/macros/s/AKfycbwe0vm78o5H2fL7yw4W_fNsEk7ZDQBen_IfRvhgTBKK7-kygXN9jQyvINDJz0QzSwI0mA/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).catch(err => console.log('Background send error:', err));
 
-    // Agad na ilipat ang user sa Thank You page nang walang kahirap-hirap
-    document.getElementById('formPage').style.display = 'none';
-    document.getElementById('thankYouPage').style.display = 'flex';
-});
+        // Agad na ilipat ang user sa Thank You page
+        document.getElementById('formPage').style.display = 'none';
+        document.getElementById('thankYouPage').style.display = 'flex';
+    });
 </script>
 </body>
 </html>
