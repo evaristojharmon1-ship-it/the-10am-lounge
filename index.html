@@ -578,31 +578,25 @@
         document.getElementById('thankYouPage').style.display = 'flex';
     }
 
-    document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+    document.getElementById('feedbackForm').addEventListener('submit', (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
-    try {
-        // I-send ang data nang walang awaiting sa JSON response para hindi mag-error ang no-cors
-        await fetch('https://script.google.com/macros/s/AKfycbyzBjgBLvD_f4Tk_vmzVq8Io7t1Q2DWWoMMgrdBUOJ2X0mLaVde1JZiGVtB-M5KYL5SdA/exec', {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {  
-                'Content-Type': 'application/json'  
-            },
-            body: JSON.stringify(data)
-        });
+    // I-send sa Google Apps Script nang nasa background
+    fetch('ILAGAY_DITO_ANG_WEB_APP_URL_MO', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).catch(err => console.log('Background send error:', err));
 
-        // Kahit no-cors, basta nag-execute ay dumidiretso na sa Thank You page
-        document.getElementById('formPage').style.display = 'none';
-        document.getElementById('thankYouPage').style.display = 'flex';
-
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Hindi makausap ang server.');
-    }
+    // Agad na ilipat ang user sa Thank You page nang walang kahirap-hirap
+    document.getElementById('formPage').style.display = 'none';
+    document.getElementById('thankYouPage').style.display = 'flex';
 });
 </script>
 </body>
